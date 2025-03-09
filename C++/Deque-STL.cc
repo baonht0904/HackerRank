@@ -40,23 +40,22 @@ int main() {
     for(const auto &input: vecs){
         std::deque<int> deque_{input.vec.begin(), input.vec.begin() + input.sub_array_size};
         auto current_max_it = std::max_element(deque_.begin(), deque_.end());
-        auto total_loop = input.vec.size() - input.sub_array_size + 1;
-        for(auto i = 0; i < total_loop - 1; ++ i){
-            std::cout << *current_max_it << " ";
+        std::cout << *current_max_it;
+
+        for(auto next_index = input.sub_array_size; next_index < input.vec.size(); ++next_index){
             if(current_max_it == deque_.begin()){
                 current_max_it = std::max_element(deque_.begin() + 1, deque_.end());
             }
             deque_.pop_front();
-            auto next_index = i + input.sub_array_size;
             auto next_value = input.vec.at(next_index);
-            deque_.push_back(input.vec.at(
-                next_index));
+            deque_.push_back(next_value);
             if(next_value > *current_max_it){
                 current_max_it = deque_.end() - 1;
             }
+            std::cout <<  " " << *current_max_it;
         }
         
-        std::cout << *current_max_it << std::endl;
+        std::cout << std::endl;
     }
     
     return 0;
