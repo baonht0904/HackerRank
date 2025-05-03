@@ -6,44 +6,38 @@ enum class Color { red, green, orange };
 template <typename T> struct Traits;
 
 // Define specializations for the Traits class template here.
-#include <map>
 #include <string>
-
-const map<Fruit, string> k_fruit_string{
-    {Fruit::apple, "apple"},
-    {Fruit::orange, "orange"},
-    {Fruit::pear, "pear"},
-};
-
-const map<Color, string> k_color_string{
-    {Color::red, "red"},
-    {Color::green, "green"},
-    {Color::orange, "orange"}
-};
-
-template <typename T> struct Traits {
-    static string name(int index)
-    {
-        try
+template<>
+struct Traits<Fruit>
+{
+    static string name(int index) {
+        switch (index)
         {
-            if (std::is_same<T, Fruit>::value) {
-                if(index >= k_fruit_string.size()) {
-                    throw std::out_of_range("Fruit out of range");
-                }
-                return k_fruit_string.at(static_cast<Fruit>(index));
-            }
-            else if (std::is_same<T, Color>::value) {
-                if(index >= k_color_string.size()) {
-                    throw std::out_of_range("Color out of range");
-                }
-                return k_color_string.at(static_cast<Color>(index));
-            }
-            else {
-                throw std::out_of_range("Enum out of range");
-            }
+        case static_cast<int>(Fruit::apple):
+            return "apple";
+        case static_cast<int>(Fruit::orange):
+            return "orange";
+        case static_cast<int>(Fruit::pear):
+            return "pear";
+        default:
+            return "unknown";
         }
-        catch(const std::out_of_range&)
+    }
+};
+
+template<>
+struct Traits<Color>
+{
+    static string name(int index) {
+        switch (index)
         {
+        case static_cast<int>(Color::red):
+            return "red";
+        case static_cast<int>(Color::green):
+            return "green";
+        case static_cast<int>(Color::orange):
+            return "orange";
+        default:
             return "unknown";
         }
     }
